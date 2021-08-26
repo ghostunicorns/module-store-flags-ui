@@ -1,0 +1,49 @@
+<?php
+/*
+ * Copyright © Ghost Unicorns snc. All rights reserved.
+ * See LICENSE for license details.
+ */
+
+/**
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Store\Block\Switcher $block
+ * @var \Magento\Store\ViewModel\SwitcherUrlProvider $viewModel
+ * @var \GhostUnicorns\StoreFlagsUi\ViewModel\Flags $viewModelFlags
+ */
+
+$viewModel = $block->getViewModel();
+$viewModelFlags = $block->getViewModelFlags();
+?>
+<?php if (count($block->getStores()) > 1) : ?>
+    <?php $id = $block->getIdModifier() ? '-' . $block->getIdModifier() : '' ?>
+    <div class="switcher language switcher-language" data-ui-id="language-switcher"
+         id="switcher-language<?= $escaper->escapeHtmlAttr($id) ?>">
+        <strong class="label switcher-label"><span><?= $escaper->escapeHtml(__('Language')) ?></span></strong>
+        <div class="actions dropdown options switcher-options">
+            <div class="action toggle switcher-trigger"
+                 id="switcher-language-trigger<?= $escaper->escapeHtmlAttr($id) ?>"
+                 data-mage-init='{"dropdown":{}}'
+                 data-toggle="dropdown"
+                 data-trigger-keypress-button="true">
+                <strong class="view-<?= $escaper->escapeHtml($block->getCurrentStoreCode()) ?>">
+                    <span><?= $escaper->escapeHtml($block->getStoreName()) ?></span>
+                    <i class="flag-icons <?= $escaper->escapeHtml($viewModelFlags->getFlagCodeByCurrentStore()) ?>"></i>
+                </strong>
+            </div>
+            <ul class="dropdown switcher-dropdown"
+                data-target="dropdown">
+                <?php foreach ($block->getStores() as $lang) : ?>
+                    <?php if ($lang->getId() != $block->getCurrentStoreId()) : ?>
+                        <li class="view-<?= $escaper->escapeHtml($lang->getCode()) ?> switcher-option">
+                            <a href="<?= $escaper->escapeUrl($viewModel->getTargetStoreRedirectUrl($lang)) ?>">
+                                <span><?= $block->escapeHtml($lang->getName()) ?></span>
+                                <i class="flag-icons <?= $escaper->escapeHtml(
+                                    $viewModelFlags->getFlagCodeByLangCode($lang->getLocaleCode())) ?>"></i>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+<?php endif; ?>
