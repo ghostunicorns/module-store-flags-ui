@@ -13,5 +13,12 @@
                 <argument name="view_model_flags" xsi:type="object">GhostUnicorns\StoreFlagsUi\ViewModel\Flags</argument>
             </arguments>
         </referenceBlock>
+        <referenceBlock name="store.settings.language" template="GhostUnicorns_StoreFlagsUi::switch/languages.phtml">
+            <arguments>
+                <argument name="id_modifier" xsi:type="string">nav</argument>
+                <argument name="view_model" xsi:type="object">Magento\Store\ViewModel\SwitcherUrlProvider</argument>
+                <argument name="view_model_flags" xsi:type="object">GhostUnicorns\StoreFlagsUi\ViewModel\Flags</argument>
+            </arguments>
+        </referenceBlock>
     </body>
 </page>
